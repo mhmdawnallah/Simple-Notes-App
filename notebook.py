@@ -35,26 +35,33 @@ class Notebook:
     def __init__(self):
         '''Initialize a notebook with an empty list.''' 
         self.notes: List[Note] = []
-    def new_note(self, memo: str, tags: str=''):
+    def add_new_note(self, memo: str, tags: str=''):
         '''Create a new note and add it to the list.''' 
         self.notes.append(Note(memo, tags))
 
     def _find_note(self, note_id: int) -> Note:
         '''Locate the note with the given id.'''
         for note in self.notes:
-            if note.id == note_id:
+            if str(note.id) == str(note_id):
                 return note
         return None
         
     def modify_memo(self, note_id, memo):
         '''Find the note with the given id and change its 
         memo to the given value.'''
-        self._find_note(note_id).memo = memo
-
+        note = self._find_note(note_id)
+        if note:
+            note.memo = memo
+            return True
+        return False
     def modify_tags(self, note_id: int, tags: str):
         '''Find the note with the given id and change its 
         tags to the given value.'''
-        self._find_note(note_id).tags = tags
+        note = self._find_note(note_id)
+        if note:
+            note.tags = tags
+            return True
+        return False
             
     def search(self, filter: str):
         '''Find all notes that match the given filter 
